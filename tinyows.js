@@ -1,5 +1,5 @@
 var map, wfs;
-//OpenLayers.ProxyHost = "/cgi-bin/proxy.cgi?url=";
+OpenLayers.ProxyHost = "/cgi-bin/proxy.cgi?url=";
 var DeleteFeature = OpenLayers.Class(OpenLayers.Control, {
   initialize: function(layer, options) {
       OpenLayers.Control.prototype.initialize.apply(this, [options]);

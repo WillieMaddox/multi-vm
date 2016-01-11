@@ -25,9 +25,7 @@ sed -i  's/peer/trust/' "$PG_HBA"
 
 service postgresql restart
 
-
 git clone https://github.com/WillieMaddox/tinyows.git
-#git clone git://github.com/mapserver/tinyows.git
 cd tinyows
 autoconf
 ./configure
@@ -35,7 +33,7 @@ make
 make install
 #make install-demo
 cp tinyows /usr/lib/cgi-bin/
-#ln -s /usr/lib/cgi-bin/tinyows /usr/lib/cgi-bin/tinyows.fcgi
+# ln -s /usr/lib/cgi-bin/tinyows /usr/lib/cgi-bin/tinyows.fcgi
 cd
 # Now the instructions from http://mapserver.org/tinyows/openlayershowto.html
 # Setup the database
@@ -53,19 +51,14 @@ shp2pgsql -g geom -s 31467 -W LATIN1 -I gruenflaechen.shp frida | psql -U postgr
 service postgresql restart
 
 cp /vagrant/tinyows.xml /etc/tinyows.xml
-# mkdir /usr/local/tinyows
-# cp /vagrant/config.xml /usr/local/tinyows/config.xml
 
-/usr/lib/cgi-bin/tinyows --check
-
-sed -i "s/\/var\/www\/html/\/var\/www/" /etc/apache2/sites-available/000-default.conf
 echo "ServerName localhost" > /etc/apache2/conf-available/local-servername.conf
 a2enconf local-servername
-service apache2 reload
+a2enmod cgi
 service apache2 restart
 
 /usr/lib/cgi-bin/tinyows --check
 
-wget "http://localhost/cgi-bin/tinyows" --post-data=/etc/tinyows.xml --header="Content-Type: application/xml; charset=UTF-8" -O /tmp/ttt.txt 
+# wget "http://localhost/cgi-bin/tinyows" --post-data=/etc/tinyows.xml --header="Content-Type: application/xml; charset=UTF-8" -O /tmp/ttt.txt 
 
 
