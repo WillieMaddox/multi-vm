@@ -3,6 +3,8 @@
 A vagrant development environment for Openlayers and a WFS-T service.
 The WFS-T service is handled by Tinyows which is connected to a PostgreSQL/PostGIS database.
 Vagrant spins up a web vm for Openlayers and a separate database vm for the tinyows WFS-T service.
+Keeping the web separate from the database allows you to work on one part while your buddy works on the other.
+A large portion of this project stems from http://mapserver.org/tinyows/openlayershowto.html
 
 ## Requirements
 

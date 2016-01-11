@@ -29,7 +29,7 @@ var DeleteFeature = OpenLayers.Class(OpenLayers.Control, {
 function showMsg(szMessage) {
   document.getElementById("message").innerHTML = szMessage;
   setTimeout(
-      "document.getElementById('message').innerHTML = ''",2000);
+      "document.getElementById('message').innerHTML = ''", 2000);
 }
 function showSuccessMsg(){
   showMsg("Transaction successfully completed");
@@ -42,7 +42,7 @@ function init() {
       projection: new OpenLayers.Projection("EPSG:31467"),
       units: "m",
       maxResolution: "auto",
-      maxExtent: new OpenLayers.Bounds(3427000,5788000,3444000,5800000),
+      maxExtent: new OpenLayers.Bounds(3427000, 5788000, 3444000, 5800000),
       controls: [
           new OpenLayers.Control.PanZoom()
       ]
@@ -51,7 +51,7 @@ function init() {
       "OSM by Omniscale WMS",
       "http://osm.omniscale.net/proxy/service",
       {layers: 'osm', format: 'image/jpeg'},
-      {projection:"EPSG:31467",  units: "m", maxResolution: "auto", maxExtent: new OpenLayers.Bounds(3427000,5788000,3444000,5800000)}
+      {projection:"EPSG:31467",  units: "m", maxResolution: "auto", maxExtent: new OpenLayers.Bounds(3427000, 5788000, 3444000, 5800000)}
   );
   var saveStrategy = new OpenLayers.Strategy.Save();
   saveStrategy.events.register("success", '', showSuccessMsg);
