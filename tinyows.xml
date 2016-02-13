@@ -1,7 +1,11 @@
 <tinyows online_resource="http://localhost/cgi-bin/tinyows"
          schema_dir="/usr/local/share/tinyows/schema/">
 
-  <pg host="localhost" user="postgres" password="postgres" dbname="tinyows" port="5432"/>
+  <pg host="localhost"
+      user="postgres"
+      password="postgres"
+      dbname="tinyows"
+      port="5432" />
 
   <metadata name="TinyOWS Server"
             title="TinyOWS Server - WFS-T Frida Service" />

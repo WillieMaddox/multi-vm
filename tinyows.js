@@ -62,11 +62,11 @@ function init() {
       protocol: new OpenLayers.Protocol.WFS({
           version: "1.1.0",
           srsName: "EPSG:31467",
-          url: "http://db01/cgi-bin/tinyows",
+          url: "http://aspe.local.db0/cgi-bin/tinyows",
           featureNS :  "http://www.tinyows.org/",
           featureType: "frida",
           geometryName: "geom",
-          schema: "http://db01/cgi-bin/tinyows?service=wfs&request=DescribeFeatureType&version=1.1.0&typename=tows:frida"
+          schema: "http://aspe.local.db0/cgi-bin/tinyows?service=wfs&request=DescribeFeatureType&version=1.1.0&typename=tows:frida"
       })
   });
   map.addLayers([osm, wfs]);

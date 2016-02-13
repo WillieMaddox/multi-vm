@@ -52,7 +52,7 @@ service postgresql restart
 
 cp /vagrant/tinyows.xml /etc/tinyows.xml
 
-echo "ServerName localhost" > /etc/apache2/conf-available/local-servername.conf
+echo "ServerName aspe.local.db0" > /etc/apache2/conf-available/local-servername.conf
 a2enconf local-servername
 a2enmod cgi
 service apache2 restart
