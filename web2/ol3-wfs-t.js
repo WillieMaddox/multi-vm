@@ -78,6 +78,7 @@ var formatGML = new ol.format.GML({
     srsName: 'EPSG:31467'
 });
 var transactWFS = function(p, f) {
+<<<<<<< HEAD
     switch (p) {
         case 'insert':
             node = formatWFS.writeTransaction([f], null, null, formatGML);
@@ -250,6 +251,136 @@ $('.btnMenu').on('click', function(event) {
         default:
             break;
     }
+=======
+	switch(p) {
+		case 'insert':
+			node = formatWFS.writeTransaction([f], null, null, formatGML);
+			break;
+		case 'update':
+			node = formatWFS.writeTransaction(null, [f], null, formatGML);
+			break;
+		case 'delete':
+			node = formatWFS.writeTransaction(null, null, [f], formatGML);
+			break;
+	}
+	s = new XMLSerializer();
+	str = s.serializeToString(node);
+	$.ajax('http://aspe.local.db0/cgi-bin/tinyows',{
+		type: 'POST',
+		dataType: 'xml',
+		processData: false,
+		contentType: 'text/xml',
+		data: str
+	}).done();
+}
+
+$('.btn-floating').hover(
+	function() { $(this).addClass('darken-2'); },
+	function() { $(this).removeClass('darken-2'); }
+);
+
+$('.btnMenu').on('click', function(event) {
+	$('.btnMenu').removeClass('orange');
+	$(this).addClass('orange');
+	map.removeInteraction(interaction);
+	select.getFeatures().clear();
+	map.removeInteraction(select);
+	switch ($(this).attr('id')) {
+	
+		case 'btnSelect':
+			interaction = new ol.interaction.Select({
+				style: new ol.style.Style({
+					stroke: new ol.style.Stroke({ color: '#f50057', width: 2 })
+				})
+			});
+			map.addInteraction(interaction);
+			/*interaction.getFeatures().on('add', function(e) {
+				props = e.element.getProperties();
+				if (props.status){$('#popup-status').html(props.status);}else{$('#popup-status').html('n/a');}
+				if (props.tiendas){$('#popup-tiendas').html(props.tiendas);}else{$('#popup-tiendas').html('n/a');}
+				coord = $('.ol-mouse-position').html().split(',');
+				overlayPopup.setPosition(coord);
+			});*/
+			break;
+
+		case 'btnEdit':
+			map.addInteraction(select);
+			interaction = new ol.interaction.Modify({
+				features: select.getFeatures()
+			});
+			map.addInteraction(interaction);
+
+			snap = new ol.interaction.Snap({
+				source: layerVector.getSource()
+			});
+			map.addInteraction(snap);
+
+			dirty = {};
+			select.getFeatures().on('add', function(e) {
+				e.element.on('change', function(e) {
+					dirty[e.target.getId()] = true;
+				});
+			});
+			select.getFeatures().on('remove', function(e) {
+				f = e.element;
+				if (dirty[f.getId()]){
+					delete dirty[f.getId()];
+					featureProperties = f.getProperties();
+					delete featureProperties.boundedBy;
+					var clone = new ol.Feature(featureProperties);
+					clone.setId(f.getId());
+					transactWFS('update', clone);
+				}
+			});
+			break;
+
+		case 'btnDrawPoint':
+			interaction = new ol.interaction.Draw({
+				type: 'Point',
+				source: layerVector.getSource()
+			});
+			map.addInteraction(interaction);
+			interaction.on('drawend', function(e) {
+				transactWFS('insert', e.feature);
+			});
+			break;
+
+		case 'btnDrawLine':
+			interaction = new ol.interaction.Draw({
+				type: 'LineString',
+				source: layerVector.getSource()
+			});
+			map.addInteraction(interaction);
+			interaction.on('drawend', function(e) {
+				transactWFS('insert', e.feature);
+			});
+			break;
+
+		case 'btnDrawPoly':
+			interaction = new ol.interaction.Draw({
+				type: 'Polygon',
+				source: layerVector.getSource()
+			});
+			map.addInteraction(interaction);
+			interaction.on('drawend', function(e) {
+				transactWFS('insert', e.feature);
+			});
+			break;
+
+		case 'btnDelete':
+			interaction = new ol.interaction.Select();
+			map.addInteraction(interaction);
+			interaction.getFeatures().on('change:length', function(e) {
+				transactWFS('delete', e.target.item(0));
+				interaction.getFeatures().clear();
+				selectPointerMove.getFeatures().clear();
+			});
+			break;
+
+		default:
+			break;
+	}
+>>>>>>> 334b5f2e3e2e2970ee12d414e15c2b63bc97a507
 });
 
 $('#btnZoomIn').on('click', function() {
